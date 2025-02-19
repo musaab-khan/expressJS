@@ -17,7 +17,15 @@ const mockUsers=[
 ]
 
 app.get('/api/users',(request,response)=>{
-    response.status(200).send(mockUsers)
+    console.log(request.query);
+    const {
+        query:{filter, value}
+    } = request;
+
+    if(filter && value) return response.send(mockUsers.filter((user)=>{
+        return user[filter].includes(value);
+    }));
+    return response.send(mockUsers);
 })
 
 app.get('/api/users/:id',(request,response)=>{
